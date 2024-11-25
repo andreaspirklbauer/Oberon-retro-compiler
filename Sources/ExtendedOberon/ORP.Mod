@@ -951,7 +951,7 @@ MODULE ORP; (*N. Wirth 1.7.97 / 8.3.2020  Oberon compiler for RISC in Oberon-07 
           NEW(ptbase); ORS.CopyId(ptbase.name); ptbase.type := type; ptbase.next := pbsList; pbsList := ptbase
         END ;
         ORS.Get(sym)
-      ELSE Type(type.base, expo, expoall); ORS.Mark("must point to name type")
+      ELSE Type(type.base, expo, expoall); ORS.Mark("must point to a named type")
       END
     ELSIF sym = ORS.procedure THEN
       ORS.Get(sym); ORB.OpenScope;
