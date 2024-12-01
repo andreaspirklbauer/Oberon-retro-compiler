@@ -367,7 +367,7 @@ MODULE ORG; (* N.Wirth, 16.4.2016 / 4.4.2017 / 31.5.2019  Oberon compiler; code 
   BEGIN
     IF x.mode = ORB.Var THEN
       IF x.r > 0 THEN (*local*) Put2(Ldr, RH, SP, x.a + frame)
-      ELSE PutPair(x.r, Ldr, RH, RH, x.a, 2)
+      ELSE PutPair(x.r, Ldr, RH, RH, x.a)
       END ;
       NilCheck; x.r := RH; incR
     ELSIF x.mode = ORB.Par THEN
