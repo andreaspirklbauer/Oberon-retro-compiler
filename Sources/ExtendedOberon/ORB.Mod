@@ -1,4 +1,4 @@
-MODULE ORB;   (*NW 25.6.2014  / AP 4.3.2020 / 5.3.2019  in Oberon-07 / AP 1.11.23 Extended Oberon*)
+MODULE ORB;   (*NW 25.6.2014  / AP 4.3.2020 / 5.3.2019  in Oberon-07 / AP 19.5.25 Extended Oberon*)
   IMPORT Files, ORS;
   (*Definition of data types Object and Type, which together form the data structure
     called "symbol table". Contains procedures for creation of Objects, and for search:
@@ -296,7 +296,8 @@ MODULE ORB;   (*NW 25.6.2014  / AP 4.3.2020 / 5.3.2019  in Oberon-07 / AP 1.11.2
         Read(R, class);
         WHILE class # 0 DO
           Files.ReadString(R, name); InType(R, thismod, t);
-          IF t.mno < 0 THEN t.mno := -t.mno  (*type already re-imported via other modules*)
+          IF t.mno < 0 THEN  (*type already re-imported via other modules*)
+            t.mno := -t.mno; t.typobj.lev := -thismod.lev
           ELSE NEW(obj); obj.class := class; obj.name := name; obj.type := t; obj.lev := -thismod.lev;
             IF class = Const THEN Files.ReadNum(R, obj.val)
             ELSIF class = Var THEN Files.ReadNum(R, obj.val); obj.rdo := TRUE
@@ -346,7 +347,8 @@ MODULE ORB;   (*NW 25.6.2014  / AP 4.3.2020 / 5.3.2019  in Oberon-07 / AP 1.11.2
   BEGIN
     IF t.ref > 0 THEN (*type was already output*) Write(R, -t.ref)
     ELSE obj := t.typobj;
-      IF obj # NIL THEN Write(R, Ref); t.ref := Ref; INC(Ref);
+      IF obj # NIL THEN  (*named type*)
+        Write(R, Ref); t.ref := Ref; INC(Ref);
         IF t.mno > 0 THEN  (*re-export, output name*)
           mod := topScope.next;
           WHILE (mod # NIL) & (mod.lev # t.mno) DO mod := mod.next END ;
