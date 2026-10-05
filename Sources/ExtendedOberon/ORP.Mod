@@ -68,9 +68,8 @@ MODULE ORP; (*N. Wirth 1.7.97 / 8.3.2020  Oberon compiler for RISC in Oberon-07 
   PROCEDURE CheckSetVal(VAR x: ORG.Item);
   BEGIN
     IF x.type.form # ORB.Int THEN ORS.Mark("not Int"); x.type := ORB.setType
-    ELSIF x.mode = ORB.Const THEN
-      IF (x.a < 0) OR (x.a >= 32) THEN ORS.Mark("invalid set") END
-    END
+    ELSIF (x.mode = ORB.Const) & ((x.a < 0) OR (x.a >= 32)) THEN ORS.Mark("invalid set")
+    END 
   END CheckSetVal;
 
   PROCEDURE CheckConst(VAR x: ORG.Item);
