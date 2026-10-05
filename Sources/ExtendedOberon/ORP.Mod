@@ -881,10 +881,6 @@ MODULE ORP; (*N. Wirth 1.7.97 / 8.3.2020  Oberon compiler for RISC in Oberon-07 
       IF dim >= 1 THEN ORS.Mark("multi-dimensional open arrays not implemented") END ;
       NEW(typ); typ.form := ORB.Array; typ.len := -1; typ.size := 2*ORG.WordSize;
       FormalType(typ.base, dim+1)
-    ELSIF sym = ORS.procedure THEN
-      ORS.Get(sym); ORB.OpenScope;
-      NEW(typ); typ.form := ORB.Proc; typ.size := ORG.WordSize; dmy := 0; ProcedureType(typ, dmy);
-      typ.dsc := ORB.topScope.next; ORB.CloseScope
     ELSE ORS.Mark("identifier expected"); typ := ORB.noType
     END
   END FormalType0;
