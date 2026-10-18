@@ -347,11 +347,14 @@ MODULE ORB;   (*NW 25.6.2014  / AP 4.3.2020 / 5.3.2019  in Oberon-07 / AP 1.9.26
 
   BEGIN
     IF t.ref > 0 THEN (*type was already output*) Write(R, -t.ref)
-    ELSE Write(R, Ref); t.ref := Ref; INC(Ref);
-      obj := t.typobj;
-      IF (obj # NIL) & (t.mno > 0) THEN (*re-export*)
-        Files.WriteString(R, t.typmod(Module).orgname); Files.WriteInt(R, t.typmod.val);
-        Files.WriteString(R, obj.name); Write(R, t.orgref)
+    ELSE obj := t.typobj;
+      IF (obj # NIL) OR (t.form IN {Array, Record}) THEN
+        Write(R, Ref); t.ref := Ref; INC(Ref);
+        IF (obj # NIL) & (t.mno > 0) THEN (*re-export*)
+          Files.WriteString(R, t.typmod(Module).orgname); Files.WriteInt(R, t.typmod.val);
+          Files.WriteString(R, obj.name); Write(R, t.orgref)
+        ELSE Write(R, 0)
+        END
       ELSE Write(R, 0)
       END ;
       Write(R, t.form);
