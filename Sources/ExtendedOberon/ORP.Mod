@@ -1063,7 +1063,8 @@ MODULE ORP; (*N. Wirth 1.7.97 / 8.3.2020  Oberon compiler for RISC in Oberon-07 
     IF sym = ORS.ident THEN
       ORS.CopyId(procid); ORS.Get(sym); CheckExport(expo, expoone, expoall);
       IF int THEN parblksize := 12 ELSE parblksize := 4 END ;
-      NEW(type); type.size := ORG.WordSize; type.len := 0; (*len used as heading of fixup chain of forward refs*)
+      NEW(type); type.size := ORG.WordSize; type.ref := -1; (*"ref" here abused as hint for ORB*)
+      type.len := 0; (*len used as heading of fixup chain of forward refs*)
       IF rec = NIL THEN  (*regular procedure*)
         proc := ORB.FindObj(procid, ORB.topScope.next);
         IF proc = NIL THEN  (*identifier not found in the symbol table*)
