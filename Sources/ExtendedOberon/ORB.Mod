@@ -348,7 +348,7 @@ MODULE ORB;   (*NW 25.6.2014  / AP 4.3.2020 / 5.3.2019  in Oberon-07 / AP 1.11.2
   BEGIN
     IF t.ref > 0 THEN (*type was already output*) Write(R, -t.ref)
     ELSE obj := t.typobj;
-      IF t.ref = 0 THEN (*types of declared procedures disallowed in ORP*)
+      IF t.ref = 0 THEN
         Write(R, Ref); t.ref := Ref; INC(Ref);
         IF (t.mno > 0) & (obj # NIL) THEN (*re-export*)
           Files.WriteString(R, t.typmod(Module).orgname); Files.WriteInt(R, t.typmod.val);
